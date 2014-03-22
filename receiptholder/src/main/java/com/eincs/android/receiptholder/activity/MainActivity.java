@@ -1,8 +1,14 @@
-package com.eincs.android.app;
+package com.eincs.android.receiptholder.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
+import com.eincs.android.receiptholder.R;
+import com.eincs.android.receiptholder.model.RSmsMessage;
+import com.eincs.android.receiptholder.provider.SMSProviders;
+
+import java.util.List;
 
 public class MainActivity extends Activity {
 
