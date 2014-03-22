@@ -1,0 +1,103 @@
+/*
+ * Copyright (C) 2014 James Lee <roth2520@gmail.com>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+ 
+description = 'Application'
+
+apply plugin: 'android'
+apply plugin: 'apt'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            url "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
+    }
+    dependencies {
+        classpath 'com.jimdo.gradle:gradle-apt-plugin:0.2-SNAPSHOT'
+    }
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url "http://www.bugsense.com/gradle/" }
+}
+
+android {
+    compileSdkVersion "Google Inc.:Google APIs:19"
+    buildToolsVersion "19.0.1"
+
+    defaultConfig {
+        versionCode 165
+        versionName "2.1.0"
+        minSdkVersion rootProject.androidMinSDKVersion
+        targetSdkVersion rootProject.androidTargetSDKVersion
+    }
+
+    signingConfigs {
+        debug {
+            storeFile file("debug.keystore")
+        }
+        release {
+            storeFile file("debug.keystore")
+            //storeFile file(System.getenv("KEYSTORE"))
+            storePassword System.getenv("KEYSTORE_PASSWORD")
+            keyAlias System.getenv("KEY_ALIAS")
+            keyPassword System.getenv("KEY_PASSWORD")
+        }
+    }
+
+    buildTypes {
+        debug {
+            runProguard true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-debug.txt'
+        }
+        release {
+            runProguard true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard.txt'
+            signingConfig signingConfigs.release
+        }
+    }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
+    lintOptions {
+        abortOnError false
+    }
+}
+
+dependencies {
+    compile group: 'android.support', name: 'compatibility-v4', version: '19'
+    compile(group: 'com.google.guava', name: 'guava', version: '11.0.2') {
+        exclude(group: 'com.google.code.findbugs', module: 'jsr305')
+    }
+    compile group: 'com.nineoldandroids', name: 'library', version: '2.4.0'
+    compile group: 'com.squareup.picasso', name: 'picasso', version: '2.1.1-VCNC1.0.1'
+    compile group: 'de.greenrobot', name: 'eventbus', version: '2.2.0'
+    compile group: 'org.slf4j', name: 'slf4j-android', version: '1.6.1-RC1'
+    compile group: 'com.flurry.android', name: 'flurry-analytics', version: '3.3.1'
+    compile group: 'com.actionbarsherlock', name: 'actionbarsherlock', version: '4.4.0', ext: 'aar'
+    compile group: 'com.google.android.analytics', name: 'analytics-vcnc', version: '3.01'
+}
+ 

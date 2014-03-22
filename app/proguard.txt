@@ -1,0 +1,98 @@
+-dontusemixedcaseclassnames
+-dontskipnonpubliclibraryclasses
+-dontpreverify
+-verbose
+
+-keepattributes Exceptions
+-keepattributes InnerClasses
+-keepattributes Signature
+-keepattributes Deprecated
+-keepattributes SourceFile
+-keepattributes LineNumberTable
+-keepattributes EnclosingMethod
+
+# Preserve all annotations themselves.
+-keepattributes *Annotation*
+
+# Preserve all native method names and the names of their classes.
+-keepclasseswithmembernames class * {
+    native <methods>;
+}
+
+# Some important configuration is based on the annotations in the code.
+# We have to specify what the annotations mean to ProGuard.
+-include ./proguard/annotations.pro
+-include ./proguard/actionbarsherlock.pro
+-include ./proguard/analytics.pro
+-include ./proguard/picasso.pro
+-include ./proguard/eventbus.pro
+
+-dontwarn org.slf4j.**
+-dontwarn org.apache.**
+-dontwarn junit.**
+-dontwarn com.google.common.**
+-dontwarn com.flurry.**
+-dontwarn org.jboss.netty.**
+-dontwarn org.iq80.snappy.**
+-dontwarn javax.lang.**
+
+-keep class org.apache.** { *; }
+
+-keep class * extends android.support.v4.app.Fragment
+
+-keepnames class * extends android.support.v4.app.Fragment
+
+-keep class org.iq80.snappy.** {
+	*;
+}
+
+-keep class * implements java.lang.annotation.Annotation { 
+    *; 
+}
+
+-keep enum * {
+    *;
+}
+
+-keepclassmembers class * {
+    boolean *(android.view.View );
+}
+
+-keep public class * extends android.view.View {
+    public <init>(android.content.Context);
+    public <init>(android.content.Context, android.util.AttributeSet);
+    public <init>(android.content.Context, android.util.AttributeSet, int);
+    public void set*(...);
+}
+
+-keepclasseswithmembers class * {
+    native <methods>;
+}
+
+-keepclasseswithmembers class * {
+    public <init>(android.content.Context, android.util.AttributeSet);
+}
+
+-keepclasseswithmembers class * {
+    public <init>(android.content.Context, android.util.AttributeSet, int);
+}
+
+-keep class * implements android.os.Parcelable {
+  public static final android.os.Parcelable$Creator *;
+}
+
+-keepclassmembers class fqcn.of.javascript.interface.for.webview {
+   public *;
+}
+
+-keepnames class * implements java.io.Serializable
+
+-keepclassmembers class * implements java.io.Serializable {
+    static final long serialVersionUID;
+    private static final java.io.ObjectStreamField[] serialPersistentFields;
+    !static !transient <fields>;
+    private void writeObject(java.io.ObjectOutputStream);
+    private void readObject(java.io.ObjectInputStream);
+    java.lang.Object writeReplace();
+    java.lang.Object readResolve();
+}
