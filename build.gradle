@@ -8,19 +8,18 @@ buildscript {
 }
 
 allprojects {
-	repositories {
-		mavenLocal()
-		mavenCentral()
-		maven { url "https://vcnc-maven-android-public.s3.amazonaws.com/"}
-	}
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven { url "https://vcnc-maven-android-public.s3.amazonaws.com/"}
+    }
 
-	tasks.withType(JavaCompile) {
+    tasks.withType(JavaCompile) {
         options.encoding = "UTF-8"
     }
 
-	ext.androidMinSDKVersion = 8
-	ext.androidTargetSDKVersion = 19
-	ext.bindingVersion = '0.4.3'
+    ext.androidMinSDKVersion = 8
+    ext.androidTargetSDKVersion = 19
 }
 
 apply plugin: 'android-reporting'
